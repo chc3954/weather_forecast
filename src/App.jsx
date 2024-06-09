@@ -5,7 +5,7 @@ import WeatherCard from "./components/WeatherCard";
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
-  const [location, setLocation] = useState("");
+  const [animationClass, setAnimationClass] = useState("");
 
   const fetchWeather = async (location) => {
     const apiKey = import.meta.env.VITE_OPEN_WEATHER;
@@ -14,21 +14,41 @@ const App = () => {
     try {
       const response = await axios.get(url);
       setWeatherData(response.data);
+      updateAnimation(response.data.weather[0].main);
     } catch (error) {
       console.error("Error fetching weather data:", error);
       setWeatherData(null);
+      setAnimationClass("");
+    }
+  };
+
+  const updateAnimation = (weather) => {
+    switch (weather.toLowerCase()) {
+      case "clear":
+        setAnimationClass("sunny");
+        break;
+      case "clouds":
+        setAnimationClass("cloudy");
+        break;
+      case "rain":
+        setAnimationClass("rainy");
+        break;
+      default:
+        setAnimationClass("");
+        break;
     }
   };
 
   const handleSearch = (location) => {
-    setLocation(location);
     fetchWeather(location);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-100">
+    <div className={`min-h-screen bg-blue-100 ${animationClass}`}>
       <SearchBar onSearch={handleSearch} />
-      {weatherData && <WeatherCard data={weatherData} />}
+      <div className="flex flex-col items-center justify-center">
+        {weatherData && <WeatherCard data={weatherData} />}
+      </div>
     </div>
   );
 };

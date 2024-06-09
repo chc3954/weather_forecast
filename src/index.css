@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes sunny {
+  0% {
+    background-color: #ffe57f;
+  }
+  50% {
+    background-color: #ffeb3b;
+  }
+  100% {
+    background-color: #ffe57f;
+  }
+}
+
+@keyframes cloudy {
+  0% {
+    background-color: #b0bec5;
+  }
+  50% {
+    background-color: #90a4ae;
+  }
+  100% {
+    background-color: #b0bec5;
+  }
+}
+
+@keyframes rainy {
+  0% {
+    background-color: #4fc3f7;
+  }
+  50% {
+    background-color: #29b6f6;
+  }
+  100% {
+    background-color: #4fc3f7;
+  }
+}
+
+.sunny {
+  animation: sunny 5s infinite;
+}
+
+.cloudy {
+  animation: cloudy 5s infinite;
+}
+
+.rainy {
+  animation: rainy 5s infinite;
+}
