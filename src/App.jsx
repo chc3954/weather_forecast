@@ -7,9 +7,9 @@ const App = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [animationClass, setAnimationClass] = useState("");
 
-  const fetchWeather = async (location) => {
+  const fetchWeather = async (lat, lon) => {
     const apiKey = import.meta.env.VITE_OPEN_WEATHER;
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
     try {
       const response = await axios.get(url);
@@ -39,8 +39,8 @@ const App = () => {
     }
   };
 
-  const handleSearch = (location) => {
-    fetchWeather(location);
+  const handleSearch = (lat, lon) => {
+    fetchWeather(lat, lon);
   };
 
   return (

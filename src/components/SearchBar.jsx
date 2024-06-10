@@ -16,25 +16,27 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const fetchSuggestions = async (query) => {
-    const username = import.meta.env.VITE_GEO_NAME;
-    const url = `http://api.geonames.org/searchJSON?name=${query}&maxRows=5&username=${username}`;
+    const apiKey = import.meta.env.VITE_OPEN_WEATHER;
+    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=10&appid=${apiKey}`;
 
     try {
       const response = await axios.get(url);
-      console.log(response);
-      return response.data.geonames.map(
-        (place) => `${place.name}, ${place.adminName1}, ${place.countryName}`
-      );
+      console.log(response.data);
+      return response.data.map((place) => [
+        `${place.name}, ${place.state ? place.state + "," : ""} ${place.country}`,
+        place.lat,
+        place.lon,
+      ]);
     } catch (error) {
       console.error("Error fetching location suggestions:", error);
       return [];
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion);
+  const handleSuggestionClick = ([placename, lat, lon]) => {
+    setInputValue(placename);
     setSuggestions([]);
-    onSearch(suggestion);
+    onSearch(lat, lon);
   };
 
   const handleSearch = () => {
@@ -45,16 +47,19 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div className="w-full p-4 first-line:fixed top-0 left-0 z-10 flex justify-center">
+    <div className="w-full p-4 fixed top-0 left-0 z-10 flex justify-center">
       <div className="relative">
         <input
           type="text"
-          className="px-4 py-2 border rounded-lg capitalize"
+          className="px-4 py-2 border rounded-lg shadow-md capitalize"
           placeholder="Enter location"
           value={inputValue}
           onChange={handleInputChange}
         />
-        <button onClick={handleSearch} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg">
+        <button
+          onClick={handleSearch}
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md"
+        >
           Search
         </button>
         {suggestions.length > 0 && (
@@ -65,7 +70,7 @@ const SearchBar = ({ onSearch }) => {
                 className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
-                {suggestion}
+                {suggestion[0]}
               </li>
             ))}
           </ul>
