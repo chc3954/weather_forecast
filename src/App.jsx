@@ -42,7 +42,7 @@ const App = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-blue-100 ${animationClass}`}>
+    <div className={`min-h-screen bg-blue-100 pt-32 ${animationClass}`}>
       <SearchBar onSearch={fetchWeather} />
       {weatherData && <WeatherCard placename={placename} data={weatherData} />}
     </div>

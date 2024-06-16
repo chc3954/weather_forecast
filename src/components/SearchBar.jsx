@@ -58,7 +58,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div className="w-full p-4 fixed top-0 left-0 z-10 flex justify-center">
+    <div className="w-full p-8 fixed top-0 left-0 z-10 flex justify-center">
       <div className="relative">
         <input
           type="text"
