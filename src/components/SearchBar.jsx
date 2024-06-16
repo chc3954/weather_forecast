@@ -7,11 +7,21 @@ const SearchBar = ({ onSearch }) => {
 
   const handleInputChange = async (e) => {
     setInputValue(e.target.value);
+
     if (e.target.value.length > 0) {
       const results = await fetchSuggestions(e.target.value);
       setSuggestions(results);
     } else {
       setSuggestions([]);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (suggestions.length === 0) return;
+      setInputValue(suggestions[0][0]);
+      setSuggestions([]);
+      onSearch(suggestions[0]);
     }
   };
 
@@ -21,7 +31,6 @@ const SearchBar = ({ onSearch }) => {
 
     try {
       const response = await axios.get(url);
-      console.log(response.data);
       return response.data.map((place) => [
         `${place.name}, ${place.state ? place.state + "," : ""} ${place.country}`,
         place.lat,
@@ -33,15 +42,17 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
-  const handleSuggestionClick = ([placename, lat, lon]) => {
-    setInputValue(placename);
+  const handleSuggestionClick = (place) => {
+    setInputValue(place[0]);
     setSuggestions([]);
-    onSearch(lat, lon);
+    onSearch(place);
   };
 
   const handleSearch = () => {
     if (inputValue.trim() !== "") {
-      onSearch(inputValue);
+      if (suggestions.length === 0) return;
+      onSearch(suggestions[0].lat, suggestions[0].lon);
+      setInputValue(suggestions.placename);
       setSuggestions([]);
     }
   };
@@ -55,10 +66,12 @@ const SearchBar = ({ onSearch }) => {
           placeholder="Enter location"
           value={inputValue}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
         <button
           onClick={handleSearch}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md"
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md disabled:bg-blue-300"
+          disabled={suggestions.length === 0}
         >
           Search
         </button>
