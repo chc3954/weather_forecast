@@ -4,17 +4,19 @@ import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 
 const App = () => {
+  const [placename, setPlacename] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [animationClass, setAnimationClass] = useState("");
 
-  const fetchWeather = async (lat, lon) => {
+  const fetchWeather = async ([name, lat, lon]) => {
     const apiKey = import.meta.env.VITE_OPEN_WEATHER;
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
 
     try {
       const response = await axios.get(url);
+      setPlacename(name);
       setWeatherData(response.data);
-      updateAnimation(response.data.weather[0].main);
+      updateAnimation(response.data.current.weather[0].main);
     } catch (error) {
       console.error("Error fetching weather data:", error);
       setWeatherData(null);
@@ -39,16 +41,10 @@ const App = () => {
     }
   };
 
-  const handleSearch = (lat, lon) => {
-    fetchWeather(lat, lon);
-  };
-
   return (
     <div className={`min-h-screen bg-blue-100 ${animationClass}`}>
-      <SearchBar onSearch={handleSearch} />
-      <div className="flex flex-col items-center justify-center">
-        {weatherData && <WeatherCard data={weatherData} />}
-      </div>
+      <SearchBar onSearch={fetchWeather} />
+      {weatherData && <WeatherCard placename={placename} data={weatherData} />}
     </div>
   );
 };

@@ -39,13 +39,13 @@
 }
 
 .sunny {
-  animation: sunny 5s infinite;
+  animation: sunny 3s infinite;
 }
 
 .cloudy {
-  animation: cloudy 5s infinite;
+  animation: cloudy 3s infinite;
 }
 
 .rainy {
-  animation: rainy 5s infinite;
+  animation: rainy 3s infinite;
 }
