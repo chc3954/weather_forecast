@@ -5,6 +5,10 @@ const SearchBar = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
+  /**
+   * Event handler when typing something in search input
+   * @param {*} e
+   */
   const handleInputChange = async (e) => {
     setInputValue(e.target.value);
 
@@ -16,6 +20,10 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
+  /**
+   * Event handler when pressing 'enter' key
+   * @param {*} e
+   */
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (suggestions.length === 0) return;
@@ -25,6 +33,33 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
+  /**
+   * Search a place where was clicked among the list
+   * @param {*} place
+   */
+  const handleSuggestionClick = (place) => {
+    setInputValue(place[0]);
+    setSuggestions([]);
+    onSearch(place);
+  };
+
+  /**
+   * Event handler to search when the search button was clicked
+   */
+  const handleSearch = () => {
+    if (inputValue.trim() !== "") {
+      if (suggestions.length === 0) return;
+      onSearch(suggestions[0].lat, suggestions[0].lon);
+      setInputValue(suggestions.placename);
+      setSuggestions([]);
+    }
+  };
+
+  /**
+   * (async) Fetches an array of place names through geocoding powered by Openweather and return it
+   * @param {string} query
+   * @returns Array of place naems including 'query'
+   */
   const fetchSuggestions = async (query) => {
     const apiKey = import.meta.env.VITE_OPEN_WEATHER;
     const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=10&appid=${apiKey}`;
@@ -39,21 +74,6 @@ const SearchBar = ({ onSearch }) => {
     } catch (error) {
       console.error("Error fetching location suggestions:", error);
       return [];
-    }
-  };
-
-  const handleSuggestionClick = (place) => {
-    setInputValue(place[0]);
-    setSuggestions([]);
-    onSearch(place);
-  };
-
-  const handleSearch = () => {
-    if (inputValue.trim() !== "") {
-      if (suggestions.length === 0) return;
-      onSearch(suggestions[0].lat, suggestions[0].lon);
-      setInputValue(suggestions.placename);
-      setSuggestions([]);
     }
   };
 

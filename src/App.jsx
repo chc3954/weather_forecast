@@ -24,6 +24,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Sets the background's animation by the current weather
+   * @param {string} weather
+   */
   const updateAnimation = (weather) => {
     switch (weather.toLowerCase()) {
       case "clear":

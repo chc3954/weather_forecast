@@ -1,7 +1,12 @@
 import React from "react";
 
 const Hourly = ({ data }) => {
-  const weatherIconUrl = (icon) => `http://openweathermap.org/img/wn/${icon}@2x.png`;
+  /**
+   * Gets a icon image through url
+   * @param {string} icon
+   * @returns param for Icon url
+   */
+  const getWeatherIcon = (icon) => `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
   return (
     <div className="p-5 bg-white bg-opacity-70 rounded-lg shadow-md w-full max-w-md overflow-x-auto">
@@ -14,9 +19,9 @@ const Hourly = ({ data }) => {
             const minute = ("0" + time.getMinutes()).slice(-2);
 
             return (
-              <article className="ml-3 pr-7 grid grid-rows-5 items-center">
+              <article key={d.dt} className="ml-3 pr-7 grid grid-rows-5 items-center">
                 <img
-                  src={weatherIconUrl(d.weather[0].icon)}
+                  src={getWeatherIcon(d.weather[0].icon)}
                   alt="weather icon"
                   className="w-20 aspect-square"
                 />
