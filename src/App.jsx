@@ -24,6 +24,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Sets the background's animation by the current weather
+   * @param {string} weather
+   */
   const updateAnimation = (weather) => {
     switch (weather.toLowerCase()) {
       case "clear":
@@ -42,7 +46,7 @@ const App = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-blue-100 ${animationClass}`}>
+    <div className={`min-h-screen bg-blue-100 pt-32 ${animationClass}`}>
       <SearchBar onSearch={fetchWeather} />
       {weatherData && <WeatherCard placename={placename} data={weatherData} />}
     </div>

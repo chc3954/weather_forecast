@@ -4,13 +4,13 @@ const Current = ({ placename, data }) => {
   const weatherIconUrl = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
 
   return (
-    <div className="mt-24 p-6 bg-white bg-opacity-70 rounded-lg shadow-md w-full max-w-md mx-auto">
+    <div className="p-6 bg-white bg-opacity-70 rounded-lg shadow-md w-full ml-auto max-w-md">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-2xl font-bold">{placename}</h2>
           <p className="text-xs text-gray-400">Timezone: {data.timezone}</p>
         </div>
-        <img src={weatherIconUrl} alt="weather icon" className="w-20 h-20" />
+        <img src={weatherIconUrl} alt="weather icon" className="w-20 aspect-square" />
       </div>
       <p className="text-lg capitalize">{data.current.weather[0].description}</p>
       <p className="text-4xl font-bold">{data.current.temp.toFixed(1)}°C</p>
@@ -32,12 +32,14 @@ const Current = ({ placename, data }) => {
           <p>{data.current.pressure} hPa</p>
         </div>
         <div>
-          <p className="font-bold">Wind Speed</p>
-          <p>{data.current.wind_speed} m/s</p>
+          <p className="font-bold">Wind</p>
+          <p>
+            {data.current.wind_deg}° / {data.current.wind_speed}m/s
+          </p>
         </div>
         <div>
-          <p className="font-bold">Wind Degree</p>
-          <p>{data.current.wind_deg}°</p>
+          <p className="font-bold">Precipitation</p>
+          <p>{data.current.rain ? data.current.rain["1h"] : 0} mm/h</p>
         </div>
       </div>
     </div>
