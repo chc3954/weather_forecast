@@ -9,7 +9,7 @@ const Hourly = ({ data }) => {
   const getWeatherIcon = (icon) => `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
   return (
-    <div className="p-5 bg-white bg-opacity-70 rounded-lg shadow-md w-full max-w-md overflow-x-auto">
+    <div className="p-5 bg-white bg-opacity-70 rounded-lg shadow-md w-full max-w-lg overflow-x-auto">
       <div className="flex flex-nowrap">
         {Object.values(data)
           .slice(0, 23)
@@ -20,15 +20,17 @@ const Hourly = ({ data }) => {
 
             return (
               <article key={d.dt} className="ml-3 pr-7 grid grid-rows-5 items-center">
-                <img
-                  src={getWeatherIcon(d.weather[0].icon)}
-                  alt="weather icon"
-                  className="w-20 aspect-square"
-                />
                 <div className="font-black text-lg">
                   {hour}:{minute}
                 </div>
-                <div className="text-xs text-center capitalize">{d.weather[0].description}</div>
+                <div className="row-span-2 self-start">
+                  <img
+                    src={getWeatherIcon(d.weather[0].icon)}
+                    alt="weather icon"
+                    className="w-16 aspect-square"
+                  />
+                  <div className="text-xs text-center capitalize">{d.weather[0].description}</div>
+                </div>
                 <div className="font-bold">{d.temp.toFixed(1)}°C</div>
                 <div className="text-xs">{d.rain ? d.rain["1h"] : 0}mm/h</div>
               </article>

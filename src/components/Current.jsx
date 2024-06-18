@@ -4,7 +4,7 @@ const Current = ({ placename, data }) => {
   const weatherIconUrl = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
 
   return (
-    <div className="p-6 bg-white bg-opacity-70 rounded-lg shadow-md w-full ml-auto max-w-md">
+    <div className="p-6 bg-white bg-opacity-70 rounded-lg shadow-md w-full ml-auto max-w-lg">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-2xl font-bold">{placename}</h2>
