@@ -61,13 +61,15 @@ const SearchBar = ({ onSearch }) => {
    * @returns Array of place naems including 'query'
    */
   const fetchSuggestions = async (query) => {
-    const apiKey = import.meta.env.VITE_OPEN_WEATHER;
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=10&appid=${apiKey}`;
+    const API_KEY = import.meta.env.VITE_OPEN_WEATHER;
+    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=10&appid=${API_KEY}`;
 
     try {
       const response = await axios.get(url);
       return response.data.map((place) => [
-        `${place.name}, ${place.state ? place.state + "," : ""} ${place.country}`,
+        `${place.name}, ${place.state ? place.state + "," : ""} ${
+          place.country
+        }`,
         place.lat,
         place.lon,
       ]);
